@@ -1,0 +1,4 @@
+{
+  "extends": ["oclif", "oclif-typescript"],
+  "plugins": ["@typescript-eslint/eslint-plugin", "eslint-plugin-tsdoc"]
+}
