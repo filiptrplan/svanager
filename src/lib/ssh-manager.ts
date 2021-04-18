@@ -72,7 +72,7 @@ export class SSHManager {
 
     fs.copyFileSync(privateKeyPath, pathJoin(this.sshFolder, `${name}.priv`));
     if (publicKeyPath)
-      fs.writeFileSync(publicKeyPath, pathJoin(this.sshFolder, `${name}.pub`));
+      fs.copyFileSync(publicKeyPath, pathJoin(this.sshFolder, `${name}.pub`));
   }
 
   /**

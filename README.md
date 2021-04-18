@@ -30,9 +30,10 @@ USAGE
 <!-- commands -->
 * [`svanager hello [FILE]`](#svanager-hello-file)
 * [`svanager help [COMMAND]`](#svanager-help-command)
-* [`svanager key:add`](#svanager-keyadd)
+* [`svanager key:add [NAME]`](#svanager-keyadd-name)
 * [`svanager key:list`](#svanager-keylist)
-* [`svanager machine:add [FILE]`](#svanager-machineadd-file)
+* [`svanager machine:add [NAME]`](#svanager-machineadd-name)
+* [`svanager machine:list [FILE]`](#svanager-machinelist-file)
 * [`svanager test`](#svanager-test)
 
 ## `svanager hello [FILE]`
@@ -72,22 +73,21 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
 
-## `svanager key:add`
+## `svanager key:add [NAME]`
 
 Adds an SSH key
 
 ```
 USAGE
-  $ svanager key:add
+  $ svanager key:add [NAME]
 
 OPTIONS
   -h, --help                           show CLI help
-  -n, --name=name                      Name of the key
-  -r, --privateKeyPath=privateKeyPath  Path of the private key
-  -u, --publicKeyPath=publicKeyPath    Path of the public key
+  -r, --privateKeyPath=privateKeyPath  path of the private key
+  -u, --publicKeyPath=publicKeyPath    path of the public key
 
 EXAMPLE
-  $ svanager key:add -n my_key -r /home/user/.ssh/id_rsa -u /home/user/.ssh/id_rsa.pub
+  $ svanager key:add my_key -r /home/user/.ssh/id_rsa -u /home/user/.ssh/id_rsa.pub
 ```
 
 _See code: [src/commands/key/add.ts](https://github.com/filiptrplan/svanager/blob/v1.0.0/src/commands/key/add.ts)_
@@ -106,13 +106,31 @@ OPTIONS
 
 _See code: [src/commands/key/list.ts](https://github.com/filiptrplan/svanager/blob/v1.0.0/src/commands/key/list.ts)_
 
-## `svanager machine:add [FILE]`
+## `svanager machine:add [NAME]`
+
+Adds a new machine
+
+```
+USAGE
+  $ svanager machine:add [NAME]
+
+OPTIONS
+  -h, --help               show CLI help
+  -k, --key=key            name of the SSH key used to connect
+  -p, --port=port          [default: 22] port of the SSH service
+  -t, --hostname=hostname  hostname of the machine(IP address or domain)
+  -u, --username=username  username used to connect by SSH
+```
+
+_See code: [src/commands/machine/add.ts](https://github.com/filiptrplan/svanager/blob/v1.0.0/src/commands/machine/add.ts)_
+
+## `svanager machine:list [FILE]`
 
 describe the command here
 
 ```
 USAGE
-  $ svanager machine:add [FILE]
+  $ svanager machine:list [FILE]
 
 OPTIONS
   -f, --force
@@ -120,7 +138,7 @@ OPTIONS
   -n, --name=name  name to print
 ```
 
-_See code: [src/commands/machine/add.ts](https://github.com/filiptrplan/svanager/blob/v1.0.0/src/commands/machine/add.ts)_
+_See code: [src/commands/machine/list.ts](https://github.com/filiptrplan/svanager/blob/v1.0.0/src/commands/machine/list.ts)_
 
 ## `svanager test`
 
