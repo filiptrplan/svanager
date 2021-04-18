@@ -15,12 +15,13 @@ export class Configuration {
    * Checks whether the `conf.json` and `~/.svanager` paths exist
    * and creates them if they don't.
    */
-  private static checkForFile(): void {
-    if (fs.existsSync(this.confPath)) return;
+  private static checkForFile(): boolean {
+    if (fs.existsSync(this.confPath)) return false;
     if (!fs.existsSync(this.confFolder)) {
       fs.mkdirSync(this.confFolder);
     }
     fs.writeFileSync(this.confPath, "{}");
+    return true;
   }
 
   /**
@@ -29,7 +30,7 @@ export class Configuration {
    * @returns {any} Value of the key
    */
   static getKey(name: string): any {
-    this.checkForFile();
+    if(this.checkForFile()) throw new Error("The configuration file is newly created!");
     const file = fs.readFileSync(this.confPath);
     const json = JSON.parse(file.toString());
     return json[name];
@@ -55,7 +56,8 @@ export class Configuration {
    * @returns {object} An object representation of the configuration
    */
   static getConfiguration(): object {
-    this.checkForFile();
+    if (this.checkForFile())
+      throw new Error("The configuration file is newly created!");
     const file = fs.readFileSync(this.confPath);
     const json = JSON.parse(file.toString());
     return json;

@@ -48,6 +48,9 @@
   "main": "index.js",
   "oclif": {
     "commands": "./lib/commands",
+    "topics": {
+      "key": { "description": "Manage your SSH keys"}
+    },
     "bin": "svanager",
     "plugins": [
       "@oclif/plugin-help"

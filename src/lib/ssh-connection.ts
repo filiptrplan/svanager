@@ -2,6 +2,10 @@ import { Config as SSHConfig, NodeSSH } from "node-ssh";
 import cli from "cli-ux";
 import { SSHKey } from "./ssh-manager";
 
+/**
+ * Manages the SSH connection, used for executing commands and copying files
+ * to a remote machine.
+ */
 export class SSHConnection {
   private ssh: NodeSSH;
 
@@ -19,7 +23,8 @@ export class SSHConnection {
     // TODO: implement custom ports for the ssh connection
   }
 
-  connect(config: SSHConfig, password: boolean, passRetries: number = 0) {
+
+  private connect(config: SSHConfig, password: boolean, passRetries: number = 0) {
     if (passRetries == 3) {
       console.log("Too many password retries! Exiting.".red);
       return;

@@ -30,6 +30,9 @@ USAGE
 <!-- commands -->
 * [`svanager hello [FILE]`](#svanager-hello-file)
 * [`svanager help [COMMAND]`](#svanager-help-command)
+* [`svanager key:add`](#svanager-keyadd)
+* [`svanager key:list [FILE]`](#svanager-keylist-file)
+* [`svanager test`](#svanager-test)
 
 ## `svanager hello [FILE]`
 
@@ -67,4 +70,51 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
+
+## `svanager key:add`
+
+Adds an SSH key. Opens an interactive shell for unprovided parameters.
+
+```
+USAGE
+  $ svanager key:add
+
+OPTIONS
+  -h, --help                           show CLI help
+  -n, --name=name                      Name of the key
+  -r, --privateKeyPath=privateKeyPath  Path of the private key
+  -u, --publicKeyPath=publicKeyPath    Path of the public key
+
+EXAMPLE
+  $ svanager key:add -n my_key -r /home/user/.ssh/id_rsa -u /home/user/.ssh/id_rsa.pub
+```
+
+_See code: [src/commands/key/add.ts](https://github.com/filiptrplan/svanager/blob/v1.0.0/src/commands/key/add.ts)_
+
+## `svanager key:list [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ svanager key:list [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/key/list.ts](https://github.com/filiptrplan/svanager/blob/v1.0.0/src/commands/key/list.ts)_
+
+## `svanager test`
+
+description of this example command
+
+```
+USAGE
+  $ svanager test
+```
+
+_See code: [src/commands/test.ts](https://github.com/filiptrplan/svanager/blob/v1.0.0/src/commands/test.ts)_
 <!-- commandsstop -->
