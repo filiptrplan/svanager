@@ -2,6 +2,7 @@ import { homedir } from "os";
 import { join as pathJoin } from "path";
 import * as fs from "fs";
 import { Configuration } from "./configuration";
+import { parsePrivateKey } from "sshpk";
 
 /**
  * Manages the SSH keys that are used to connect to machines.
@@ -99,7 +100,13 @@ export class SSHManager {
     const privateKey = fs.readFileSync(keyPaths.privateKeyPath).toString();
 
     let password = false;
-    if (privateKey.includes("Proc-Type: 4,ENCRYPTED")) password = true;
+    // If the library fails to pass the key it is probably encrypted
+    try {
+      let key = parsePrivateKey(privateKey, "auto");
+      password = false;
+    } catch {
+      password = true;
+    }
 
     let publicKey;
     if (fs.existsSync(keyPaths.publicKeyPath)) {

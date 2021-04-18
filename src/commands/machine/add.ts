@@ -1,6 +1,8 @@
 import {Command, flags} from "@oclif/command"
 import { ListQuestion, Question } from "inquirer"
 import inquirer = require("inquirer")
+import { Machine } from "../../lib/machine"
+import { MachineManager } from "../../lib/machine-manager"
 import { SSHManager } from "../../lib/ssh-manager"
 
 export default class MachineAdd extends Command {
@@ -82,7 +84,10 @@ export default class MachineAdd extends Command {
       questions.push(keyQuestion);
     }
     inquirer.prompt(questions).then((answers) => {
-
+      const data: any = {...args, ...flags, ...answers};
+      const machine = new Machine(data.name, data.hostname, data.port, data.username, data.key);
+      MachineManager.addMachine(machine);
+      console.log("Machine " + `${data.name}`.bgBlue + " was successfully added.");
     });
   }
 }

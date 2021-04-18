@@ -1,6 +1,9 @@
 import { Config as SSHConfig, NodeSSH } from "node-ssh";
 import cli from "cli-ux";
-import { SSHKey } from "./ssh-manager";
+import { SSHKey, SSHManager } from "./ssh-manager";
+import { Question } from "inquirer";
+import inquirer = require("inquirer");
+import { parsePrivateKey } from "sshpk";
 
 /**
  * Manages the SSH connection, used for executing commands and copying files
@@ -8,43 +11,62 @@ import { SSHKey } from "./ssh-manager";
  */
 export class SSHConnection {
   private ssh: NodeSSH;
+  private sshConfig: SSHConfig;
+  private sshKey: SSHKey;
 
   constructor(host: string, username: string, key: SSHKey, port?: number) {
     this.ssh = new NodeSSH();
-    let config: SSHConfig = {
+    this.sshKey = key;
+    this.sshConfig = {
       host: host,
       username: username,
-      privateKey: "/home/filip/.ssh/id_rsa",
+      privateKey: this.sshKey.privateKey,
     };
-    if (port) config.port = port;
-    this.connect(config, key.password);
-
-    // TODO: implement passwords for keys
-    // TODO: implement custom ports for the ssh connection
+    if (port) this.sshConfig.port = port;
   }
 
-
-  private connect(config: SSHConfig, password: boolean, passRetries: number = 0) {
-    if (passRetries == 3) {
-      console.log("Too many password retries! Exiting.".red);
-      return;
-    }
-    if (password) {
-      cli.prompt("SSH key password", { type: "hide" }).then((pass) => {
-        config.passphrase = pass;
-        this.ssh.connect(config).catch((e) => {
-          if (e.errno == "ECONNREFUSED") {
-            console.log("The SSH connection was refused.".red);
-          } else if (e.message.includes("OpenSSH key integrity check failed")) {
-            console.log("Incorrect password!".red);
-            this.connect(config, password, ++passRetries);
-          } else {
-            console.log(e.red);
-          }
+  connect(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.sshKey.password) {
+        const passwordQuestion: Question = {
+          name: "password",
+          type: "password",
+          message: "Enter SSH key passphrase",
+          prefix: "",
+          suffix: ": ",
+          validate: (pass) => {
+            try {
+              let key = parsePrivateKey(this.sshKey.privateKey, "auto", {
+                passphrase: pass
+              });
+              return true;
+            } catch {
+              return "Incorrect password.";
+            }
+          },
+        };
+        inquirer.prompt([passwordQuestion]).then((answers) => {
+          this.sshConfig.passphrase = answers.password;
+          this.ssh
+            .connect(this.sshConfig)
+            .then(() => {
+              resolve();
+            })
+            .catch((e) => {
+              if (e.errno == "ECONNREFUSED") {
+                reject("The SSH connection was refused.");
+              } else {
+                reject(e.errno);
+              }
+            });
         });
-      });
-    } else {
-      this.ssh.connect(config);
-    }
+      } else {
+        this.ssh.connect(this.sshConfig);
+      }
+    });
+  }
+
+  runCmd(command: string) {
+    if (!this.ssh.isConnected()) return;
   }
 }
