@@ -10,7 +10,6 @@ export default class KeyList extends Command {
   }
 
   async run() {
-    const {args, flags} = this.parse(KeyList)
     const names = SSHManager.getKeyNames();
     console.log("Names".bold);
     names.forEach(name => {

@@ -31,7 +31,8 @@ USAGE
 * [`svanager hello [FILE]`](#svanager-hello-file)
 * [`svanager help [COMMAND]`](#svanager-help-command)
 * [`svanager key:add`](#svanager-keyadd)
-* [`svanager key:list [FILE]`](#svanager-keylist-file)
+* [`svanager key:list`](#svanager-keylist)
+* [`svanager machine:add [FILE]`](#svanager-machineadd-file)
 * [`svanager test`](#svanager-test)
 
 ## `svanager hello [FILE]`
@@ -73,7 +74,7 @@ _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2
 
 ## `svanager key:add`
 
-Adds an SSH key. Opens an interactive shell for unprovided parameters.
+Adds an SSH key
 
 ```
 USAGE
@@ -91,13 +92,27 @@ EXAMPLE
 
 _See code: [src/commands/key/add.ts](https://github.com/filiptrplan/svanager/blob/v1.0.0/src/commands/key/add.ts)_
 
-## `svanager key:list [FILE]`
+## `svanager key:list`
+
+Lists all your added SSH keys
+
+```
+USAGE
+  $ svanager key:list
+
+OPTIONS
+  -h, --help  show CLI help
+```
+
+_See code: [src/commands/key/list.ts](https://github.com/filiptrplan/svanager/blob/v1.0.0/src/commands/key/list.ts)_
+
+## `svanager machine:add [FILE]`
 
 describe the command here
 
 ```
 USAGE
-  $ svanager key:list [FILE]
+  $ svanager machine:add [FILE]
 
 OPTIONS
   -f, --force
@@ -105,7 +120,7 @@ OPTIONS
   -n, --name=name  name to print
 ```
 
-_See code: [src/commands/key/list.ts](https://github.com/filiptrplan/svanager/blob/v1.0.0/src/commands/key/list.ts)_
+_See code: [src/commands/machine/add.ts](https://github.com/filiptrplan/svanager/blob/v1.0.0/src/commands/machine/add.ts)_
 
 ## `svanager test`
 

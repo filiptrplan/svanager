@@ -11,8 +11,11 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^3",
+    "@types/inquirer": "^7.3.1",
     "cli-ux": "^5.5.1",
     "colors": "^1.4.0",
+    "inquirer": "^8.0.0",
+    "inquirer-fuzzy-path": "^2.3.0",
     "node-ssh": "^11.1.1",
     "tslib": "^1"
   },
@@ -49,7 +52,9 @@
   "oclif": {
     "commands": "./lib/commands",
     "topics": {
-      "key": { "description": "Manage your SSH keys"}
+      "key": {
+        "description": "Manage your SSH keys"
+      }
     },
     "bin": "svanager",
     "plugins": [
